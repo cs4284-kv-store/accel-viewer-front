@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Sensor from './Sensor';
 import actions from './actions';
+import Graph from './Graph';
 
 //const dateFormat = 'YYYY-MM-DD HH:mm:ss'
 
@@ -15,13 +16,14 @@ class App extends Component {
   }
 
   render() {
-    return <SensorList sensors={this.props.sensors}/>
+    return <div><SensorList sensors={this.props.sensors}/><Graph sensors={this.props.sensors}/></div>
   }
 }
 
 function stateToProps(state) {
   return {
-    sensors: state.sensors
+    sensors: state.sensorData,
+    socket: state.socket
   }
 }
 
@@ -42,14 +44,9 @@ class SensorList extends Component {
     let sensors = this.props.sensors
     let keys = Object.keys(sensors)
     let listBody = keys.map(key => {
-      let sensor = sensors[key]
-
-      return (null)
-      /*
       return (
-        <Sensor key={key} id={key} sensor={sensor}/>
+        <Sensor key={key} id={key}/>
       )
-      */
     })
 
     return (<div>{listBody}</div>)

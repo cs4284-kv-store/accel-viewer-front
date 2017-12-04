@@ -1,21 +1,26 @@
 import { combineReducers } from 'redux';
 
-const initialState = {
-  socketState: 'DISCONNECTED',
-  sensorData: {},
-  selectedSensors: []
-}
-
-const sensors = function(state=initialState, action) {
+const sensorData = function(state={}, action) {
   switch(action.type) {
-    case 'CONNECTING': 
-    case 'CONNECTED': 
-    case 'DISCONNECTED':
+    case 'TOGGLE_SELECTED': {
+      let id = action.id
+      let oldState = state[id]
+
+      if(!oldState)
+        return state
+
+      let newState = {
+        ...oldState,
+        selected: !oldState.selected
+      }
+
       return {
         ...state,
-        socketState: action.type
+        [id]: newState
       }
-    case 'SENSOR_UPDATE':
+    }
+
+    case 'SENSOR_UPDATE': {
       /* TODO: add to sensor data */
       let reading = action.data
 
@@ -25,24 +30,41 @@ const sensors = function(state=initialState, action) {
       let utc_updated = reading.updated + ' UTC'
       reading.updated = new Date(utc_updated)
 
-      let oldState = state.sensorData[id];
+      let oldState = state[id];
       if(!oldState)
-        oldState = []
+        oldState = {
+          selected: false,
+          data: []
+        }
 
-      let newState = [reading, ...oldState]
+      let newState = {
+        ...oldState,
+        data: [reading, ...oldState.data]
+      }
 
       return {
         ...state,
-        sensorData: {
-          ...state.sensorData,
-          [id]: newState
-        }
+        [id]: newState
       }
+    }
+
+    default:
+      return state
+  }
+}
+
+const socket = function(state='DISCONNECTED', action) {
+  switch(action.type) {
+    case 'CONNECTING': 
+    case 'CONNECTED': 
+    case 'DISCONNECTED':
+      return action.type
     default:
       return state
   }
 }
 
 export default combineReducers({
-  sensors
+  socket,
+  sensorData
 })

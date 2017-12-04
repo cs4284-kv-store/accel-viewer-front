@@ -10,5 +10,6 @@ export default {
   sensorUpdate: data => ({
     type: 'SENSOR_UPDATE',
     data
-  })
+  }),
+  toggleSelected: (id) => ({ type: 'TOGGLE_SELECTED', id })
 }
