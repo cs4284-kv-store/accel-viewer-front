@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Button, Collapse } from 'reactstrap';
-import {XYPlot, XAxis, YAxis, HorizontalGridLines, LineSeries} from 'react-vis';
+import { XYPlot, XAxis, YAxis, HorizontalGridLines, LineSeries } from 'react-vis';
 import moment from 'moment'
 import actions from './actions'
 
@@ -12,7 +12,11 @@ class Sensor extends Component {
 
   render() {
     let color = this.props.sensor.selected ? 'primary' : 'secondary'
-    return <Button color={color} onClick={this.toggleSensor.bind(this)}>{this.props.id}</Button>
+    return (
+        <Button style={{width: 80}} color={color} onClick={this.toggleSensor.bind(this)}>
+            {this.props.id}
+        </Button>
+    )
   }
 }
 

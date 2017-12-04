@@ -4,6 +4,8 @@ import Sensor from './Sensor';
 import actions from './actions';
 import Graph from './Graph';
 
+import { Container, Col, Row } from 'reactstrap'
+
 //const dateFormat = 'YYYY-MM-DD HH:mm:ss'
 
 class App extends Component {
@@ -16,7 +18,16 @@ class App extends Component {
   }
 
   render() {
-    return <div><SensorList sensors={this.props.sensors}/><Graph sensors={this.props.sensors}/></div>
+    return (
+        <Container>
+            <Col xs='2' sm='2' md='2' lg='2' xl='2'>
+                <SensorList sensors={this.props.sensors}/>
+            </Col>
+            <Col xs='10' sm='10' md='10' lg='10' xl='10' style={{height: 1080}}>
+                <Graph sensors={this.props.sensors}/>
+            </Col>
+        </Container>
+    )
   }
 }
 
@@ -28,9 +39,6 @@ function stateToProps(state) {
 }
 
 export default connect(stateToProps)(App)
-
-
-
 
 
 class SensorList extends Component {
@@ -45,7 +53,9 @@ class SensorList extends Component {
     let keys = Object.keys(sensors)
     let listBody = keys.map(key => {
       return (
-        <Sensor key={key} id={key}/>
+          <Row>
+            <Sensor key={key} id={key}/>
+          </Row>
       )
     })
 
@@ -54,7 +64,6 @@ class SensorList extends Component {
 
   render() {
     return (<div className='sensor-list'>
-      <h1>LIST OF SENSORS</h1>
       {this.renderSensors()}
     </div>)
   }
