@@ -10,7 +10,7 @@ import { Container, Col, Row } from 'reactstrap'
 
 class App extends Component {
   componentWillMount() {
-    this.props.dispatch(actions.connect('/ws/'))
+    this.props.dispatch(actions.connect('ws://104.196.115.111/'))
   }
 
   componentWillUnmount() {
