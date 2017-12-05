@@ -10,7 +10,7 @@ import { Container, Col, Row } from 'reactstrap'
 
 class App extends Component {
   componentWillMount() {
-    this.props.dispatch(actions.connect('ws://localhost:8080/'))
+    this.props.dispatch(actions.connect('/ws/'))
   }
 
   componentWillUnmount() {
@@ -19,13 +19,18 @@ class App extends Component {
 
   render() {
     return (
-        <Container>
+        <Container style={{height: '100%'}}>
+          <Row>
+            <h1>Sensor Viewer</h1>
+          </Row>
+          <Row style={{height: 'calc(100% - 69px)'}}>
             <Col xs='2' sm='2' md='2' lg='2' xl='2'>
                 <SensorList sensors={this.props.sensors}/>
             </Col>
-            <Col xs='10' sm='10' md='10' lg='10' xl='10' style={{height: 1080}}>
+            <Col xs='10' sm='10' md='10' lg='10' xl='10' style={{height: '100%'}}>
                 <Graph sensors={this.props.sensors}/>
             </Col>
+      </Row>
         </Container>
     )
   }
@@ -39,7 +44,6 @@ function stateToProps(state) {
 }
 
 export default connect(stateToProps)(App)
-
 
 class SensorList extends Component {
   constructor(props) {
